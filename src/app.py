@@ -257,6 +257,44 @@ def get_all_people():
     list_people = list(map(lambda x: x.serialize(), all_people))
     
     return jsonify(list_people), 200
+
+@app.route('/people', methods=['POST'])
+def create_people():
+    name = request.json.get('name')
+    gender = request.json.get('gender')
+    height = request.json.get('height')
+    mass = request.json.get('mass')
+    hair_color = request.json.get('hair_color')
+    skin_color = request.json.get('skin_color')
+    eye_color = request.json.get('eye_color')
+    birth_year = request.json.get('birth_year')
+
+    # Check if all required fields are present
+    if not name or not gender:
+        raise APIException("Missing required fields", 400)
+    
+    # Check if the people already exists in the database
+    existing_people = People.query.filter_by(name=name).first()
+    if existing_people:
+        raise APIException("People already exists", 400)
+    
+    # Create a new people object
+    new_people = People(
+        name=name,
+        gender=gender,
+        height=height,
+        mass=mass,
+        hair_color=hair_color,
+        skin_color=skin_color,
+        eye_color=eye_color,
+        birth_year=birth_year
+    )
+
+    # Add the new people to the database
+    db.session.add(new_people)
+    db.session.commit()
+    
+    return jsonify(new_people.serialize()), 201
     
 # Get people by people_id
 @app.route('/people/<int:people_id>', methods=['GET'])
@@ -277,6 +315,46 @@ def get_all_planets():
     
     return jsonify(list_planets), 200
 
+@app.route('/planet', methods=['POST'])
+def create_planet():
+    name = request.json.get('name')
+    terrain = request.json.get('terrain')
+    climate = request.json.get('climate')
+    population = request.json.get('population')
+    gravity = request.json.get('gravity')
+    diameter = request.json.get('diameter')
+    rotation_period = request.json.get('rotation_period')
+    orbital_period = request.json.get('orbital_period')
+    surface_water = request.json.get('surface_water')
+
+    # Check if all required fields are present
+    if not name:
+        raise APIException("Missing required fields", 400)
+    
+    # Check if the people already exists in the database
+    existing_people = Planet.query.filter_by(name=name).first()
+    if existing_people:
+        raise APIException("Planet already exists", 400)
+    
+    # Create a new people object
+    new_planet = Planet(
+        name=name,
+        terrain=terrain,
+        climate=climate,
+        population=population,
+        gravity=gravity,
+        diameter=diameter,
+        rotation_period=rotation_period,
+        orbital_period=orbital_period,
+        surface_water=surface_water
+    )
+
+    # Add the new people to the database
+    db.session.add(new_planet)
+    db.session.commit()
+    
+    return jsonify(new_planet.serialize()), 201
+
 # Get planet by planet_id
 @app.route('/planets/<int:planet_id>', methods=['GET'])
 def get_planet(planet_id):
@@ -295,6 +373,48 @@ def get_all_vehicles():
     list_vehicles = list(map(lambda x: x.serialize(), all_vehicles))
     
     return jsonify(list_vehicles), 200
+
+@app.route('/vehicle', methods=['POST'])
+def create_vehicle():
+    name = request.json.get('name')
+    model = request.json.get('model')
+    vehicle_class = request.json.get('vehicle_class')
+    manufacturer = request.json.get('manufacturer')
+    cost_in_credits = request.json.get('cost_in_credits')
+    length = request.json.get('length')
+    crew = request.json.get('crew')
+    max_atmosphering_speed = request.json.get('max_atmosphering_speed')
+    cargo_capacity = request.json.get('cargo_capacity')
+    consumables = request.json.get('consumables')
+
+    # Check if all required fields are present
+    if not name:
+        raise APIException("Missing required fields", 400)
+    
+    # Check if the people already exists in the database
+    existing_people = Vehicle.query.filter_by(name=name).first()
+    if existing_people:
+        raise APIException("Vehicle already exists", 400)
+    
+    # Create a new people object
+    new_vehicle = Vehicle(
+        name=name,
+        model=model,
+        vehicle_class=vehicle_class,
+        manufacturer=manufacturer,
+        cost_in_credits=cost_in_credits,
+        length=length,
+        crew=crew,
+        max_atmosphering_speed=max_atmosphering_speed,
+        cargo_capacity=cargo_capacity,
+        consumables=consumables
+    )
+
+    # Add the new people to the database
+    db.session.add(new_vehicle)
+    db.session.commit()
+    
+    return jsonify(new_vehicle.serialize()), 201
 
 # Get vehicle by vehicle_id
 @app.route('/vehicles/<int:vehicle_id>', methods=['GET'])

@@ -22,8 +22,8 @@ favorite_vehicles = db.Table(
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
+    password = db.Column(db.String(200), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     favorites = db.relationship("Favorite", backref="user", lazy=True, uselist=False)
 
@@ -120,14 +120,12 @@ class Vehicle(db.Model):
     vehicle_class = db.Column(db.String(200), nullable=True)
     manufacturer = db.Column(db.String(200), nullable=True)
     cost_in_credits = db.Column(db.String(200), nullable=True)
-    length = db.Column(db.String(50), nullable=True)
-    crew = db.Column(db.String(50), nullable=True)
-    passengers = db.Column(db.String(50), nullable=True)
-    max_atmosphering_speed = db.Column(db.String(50), nullable=True)
-    cargo_capacity = db.Column(db.String(50), nullable=True)
-    consumables = db.Column(db.String(50), nullable=True)
-    capacity = db.Column(db.Float, nullable=True)
-    
+    length = db.Column(db.String(200), nullable=True)
+    crew = db.Column(db.String(200), nullable=True)
+    passengers = db.Column(db.String(200), nullable=True)
+    max_atmosphering_speed = db.Column(db.String(200), nullable=True)
+    cargo_capacity = db.Column(db.String(200), nullable=True)
+    consumables = db.Column(db.String(200), nullable=True)    
     
     def __repr__(self):
         return '<Vehicle %r>' % self.name
@@ -146,5 +144,4 @@ class Vehicle(db.Model):
             "max_atmosphering_speed": self.max_atmosphering_speed,
             "cargo_capacity": self.cargo_capacity,
             "consumables": self.consumables,
-            "capacity": self.capacity
         }
